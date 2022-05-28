@@ -1,13 +1,35 @@
 function help_command(args)
     if args[1] == nil then -- /help
-        api_log(HELP_STRING, "[]     Here's a list of commands!     []")
-        for i = 1,combined_command_count do
-            local cur = combined_command_list[i]
-            api_log(HELP_STRING, cur["command_name"])
+        if #pages == 0 or pages == nil then --This will be irrelavent as soon i start adding commands oop
+            api_log(HELP_STRING, "[]     Here's a list of commands!     []")
+            for i = 1,combined_command_count do
+                local cur = combined_command_list[i]
+                api_log(HELP_STRING, cur["command_name"])
+            end
+            api_log(HELP_STRING, "[]Do /help {command} for more details![]")
+        else                                            -- multible pages exist but no pg# given
+            page_number = 1
+            api_log(HELP_STRING, "[Pg." .. page_number .. " of " .. #pages .. "]  Here's a list of commands! Do /help {command} for more details. [Pg." .. page_number .. " of " .. #pages .. "]")
+            for i = 1,PAGE_LIMIT do
+                local cur = pages[page_number][i]
+                api_log(HELP_STRING, cur["command_name"])
+            end
+            api_log(HELP_STRING, "[Pg." .. page_number .. " of " .. #pages .. "]  /help pg {#} to see other pages, /help verbose to see details of all commands. [Pg." .. page_number .. " of " .. #pages .. "]")
         end
-        api_log(HELP_STRING, "[]Do /help {command} for more details![]")
+    elseif type(tonumber(args[1])) == "number" then
+        if tonumber(args[1]) <= #pages and tonumber(args[1]) > 0 then
+            page_number = tonumber(args[1])
+            api_log(HELP_STRING, "[Pg." .. page_number .. " of " .. #pages .. "]  Here's a list of commands! Do /help {command} for more details. [Pg." .. page_number .. " of " .. #pages .. "]")
+            for i = 1,PAGE_LIMIT do
+                local cur = pages[page_number][i]
+                api_log(HELP_STRING, cur["command_name"])
+            end
+            api_log(HELP_STRING, "[Pg." .. page_number .. " of " .. #pages .. "]  /help pg {#} to see other pages, /help verbose to see details of all commands. [Pg." .. page_number .. " of " .. #pages .. "]")
+        else
+            api_log(HELP_STRING, "Page not found")
+        end
     else
-        for i = 1,combined_command_count do  -- /help {something}
+        for i = 1,combined_command_count do  -- /help {command}
             local cur = combined_command_list[i]
             if string.find(cur["command_name"], args[1], 2) then --search for arg1 in the combined_command_list
                 api_log(HELP_STRING, "------------------------------------")

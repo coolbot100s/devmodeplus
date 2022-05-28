@@ -5,8 +5,8 @@ COMMAND_REGISTRY = "devmode_extentions"
 VMID = "Apico"
 
 --variables for seperating pages of commands when there's too many.
-PAGE_LIMIT = 27
-VERBOSE_PAGE_LIMIT = 10
+PAGE_LIMIT = 27 -- at this time 30 lines can be shown in the log at once. 28 allows header & footer
+VERBOSE_PAGE_LIMIT = 8
 
 pages = {}
 verbose_pages = {}
@@ -219,7 +219,7 @@ end
 --    parameters_desc = "{x} - x position to move to {y} - y position to move to"
 --    }, 
 --    {
---    command_name = "/ping",
+--    command_name = "/ping",               -- Command name CANNOT be a number as it will not be able to searched since page searching takes priority.
 --    mod_id = MOD_NAME,
 --    desc = "replies with pong :)'",
 --    parameters = "",                      -- All fields must be present for each command in the list, if a command does not have any parameters leave both fields blank like so.
