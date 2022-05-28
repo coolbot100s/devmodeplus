@@ -183,7 +183,7 @@ end
 --
 --}
 --
---function catalog_my_commands_with_devmodeplus()          -- You can add any additional logic you like to this function or skip it and call devmodeplus directly but it's reccomended you follow the format below. You should call this function on ready() and after your commands are registered this the api.                             
+--function catalog_my_commands_with_devmodeplus()          -- You can add any additional logic you like to this function or skip it and call devmodeplus directly but it's reccomended you follow the format below. You should call this function on ready() and after your commands are registered with the api.                             
 --    if api_mod_exists("devmodeplus") then                -- check to see if devmodeplus is installed
 --        api_mod_call("devmodeplus", "add_my_commands", {MOD_NAME, command_list} ) -- Then use the api to call the above function, passing in a name or id for your mod and list of commands which you want to be visible in /help
 --    end
