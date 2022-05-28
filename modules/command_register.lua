@@ -187,7 +187,7 @@ function update_pages()
                 end
             end
             pages_added = pages_added + 1
-            table.insert(pages,page)
+            table.insert(verbose_pages,page)
         end
     end
 end
