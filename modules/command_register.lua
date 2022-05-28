@@ -4,6 +4,13 @@ GENERIC_RESPONSE = "Response"
 COMMAND_REGISTRY = "devmode_extentions"
 VMID = "Apico"
 
+--variables for seperating pages of commands when there's too many.
+PAGE_LIMIT = 27
+VERBOSE_PAGE_LIMIT = 10
+
+pages = {}
+verbose_pages = {}
+
 
 -- list of vanilla commands that skip registration but need to be here for the /help command
 vanilla_command_list = {
@@ -147,17 +154,55 @@ function register_commands()
         local cur = command_list[i]
         api_define_command(cur["command_name"], cur["command_script"])
     end
+    update_pages()
     api_log(COMMAND_REGISTRY, "DevmodePlus Registered " .. command_count .. " new commands!")
 end
+
+-- creates lists of pages for /help and /help verbose
+function update_pages()
+    pages = {}
+    if combined_command_count > PAGE_LIMIT then
+        pages_added = 0
+        for  i = 1,math.ceil(combined_command_count / PAGE_LIMIT)  do
+            page = {}
+            for _ = 1,PAGE_LIMIT do
+                i = _ + pages_added * PAGE_LIMIT
+                if i <= combined_command_count then
+                    table.insert(page,combined_command_list[i])
+                end -- I could but a break here to make it 0.00002ms faster ig TODO
+            end
+            pages_added = pages_added + 1
+            table.insert(pages,page)
+        end
+    end
+    verbose_pages()
+    if combined_command_count > VERBOSE_PAGE_LIMIT then
+        pages_added = 0
+        for  i = 1,math.ceil(combined_command_count / VERBOSE_PAGE_LIMIT)  do
+            page = {}
+            for _ = 1,VERBOSE_PAGE_LIMIT do
+                i = _ + pages_added * VERBOSE_PAGE_LIMIT
+                if i <= combined_command_count then
+                    table.insert(page,combined_command_list[i])
+                end
+            end
+            pages_added = pages_added + 1
+            table.insert(pages,page)
+        end
+    end
+end
+
 
 -- Called by other mods to add commands to /help. See below for how to use!
 function add_my_commands(arg1, arg2)
     if safety_check_name(arg1) == true and safety_check_list(arg1, arg2) == true then --modules/helpers.lua
         combined_command_list = merge_tables(combined_command_list, arg2)
         combined_command_count = #combined_command_list
+        update_pages()
         api_log(COMMAND_REGISTRY, arg1 .. " " .. "Added " .. #arg2 .. " commands! use /help for more info")
     end
 end
+
 
 --- EXAMPLE USAGE ---
 -- Allow commands from your mods to show up in /help!
