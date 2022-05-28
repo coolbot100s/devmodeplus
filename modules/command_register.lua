@@ -5,8 +5,8 @@ COMMAND_REGISTRY = "devmode_extentions"
 VMID = "Apico"
 
 --variables for seperating pages of commands when there's too many.
-PAGE_LIMIT = 27 -- at this time 30 lines can be shown in the log at once. 28 allows header & footer
-VERBOSE_PAGE_LIMIT = 8
+PAGE_LIMIT = 7 -- at this time 30 lines can be shown in the log at once. 28 allows header & footer
+VERBOSE_PAGE_LIMIT = 5
 
 pages = {}
 verbose_pages = {}
@@ -115,8 +115,8 @@ command_list = {
         command_script = "help_command",
         mod_id = MOD_NAME,
         desc = "Displays a list of commands, to see more info on each command type '/help {command_name}' to see a detailed list of ALL commands type '/help verbose'",
-        parameters = "{command}",
-        parameters_desc = "{command} - Input the name of a command to get details. leave blank to get a list of all commands."
+        parameters = "{search_type} {#}",
+        parameters_desc = "{search_type} - Can be 'pg', 'verbose' or the name of a command. {#} - With search_type pg or verbose you can input a page number you would like to see. Ignored when searching for a command."
     },
     {
         command_name = "/echo",
@@ -219,7 +219,7 @@ end
 --    parameters_desc = "{x} - x position to move to {y} - y position to move to"
 --    }, 
 --    {
---    command_name = "/ping",               -- Command name CANNOT be a number as it will not be able to searched since page searching takes priority.
+--    command_name = "/ping",               -- Command name CANNOT be "pg" or "verbose" as these terms will take priority and your cammond will be unsearchable.
 --    mod_id = MOD_NAME,
 --    desc = "replies with pong :)'",
 --    parameters = "",                      -- All fields must be present for each command in the list, if a command does not have any parameters leave both fields blank like so.

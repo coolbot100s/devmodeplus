@@ -16,15 +16,47 @@ function help_command(args)
             end
             api_log(HELP_STRING, "[Pg." .. page_number .. " of " .. #pages .. "]  /help pg {#} to see other pages, /help verbose to see details of all commands. [Pg." .. page_number .. " of " .. #pages .. "]")
         end
-    elseif type(tonumber(args[1])) == "number" then
-        if tonumber(args[1]) <= #pages and tonumber(args[1]) > 0 then
-            page_number = tonumber(args[1])
+    elseif args[1] == "pg" then -- /help {pg}
+        if type(tonumber(args[2])) == "number" and tonumber(args[2]) > 0 and tonumber(args[2]) <= #pages then
+            page_number = tonumber(args[2])
             api_log(HELP_STRING, "[Pg." .. page_number .. " of " .. #pages .. "]  Here's a list of commands! Do /help {command} for more details. [Pg." .. page_number .. " of " .. #pages .. "]")
             for i = 1,PAGE_LIMIT do
                 local cur = pages[page_number][i]
                 api_log(HELP_STRING, cur["command_name"])
             end
             api_log(HELP_STRING, "[Pg." .. page_number .. " of " .. #pages .. "]  /help pg {#} to see other pages, /help verbose to see details of all commands. [Pg." .. page_number .. " of " .. #pages .. "]")
+        else
+            api_log(HELP_STRING, "Page not found")
+        end
+    elseif args[1] == "verbose" then
+        if type(tonumber(args[2])) ~= "number" then
+            page_number = 1
+            api_log(HELP_STRING, "[Pg." .. page_number .. " of " .. #verbose_pages .. "]  Here's details on the commands! [Pg." .. page_number .. " of " .. #verbose_pages .. "]")
+            for i = 1,VERBOSE_PAGE_LIMIT do
+                local cur = verbose_pages[page_number][i]
+                api_log(HELP_STRING, "------------------------------------")
+                api_log(HELP_STRING, cur["mod_id"] .. ": " .. cur["command_name"] .. " " .. cur["parameters"])
+                api_log(HELP_STRING, "Description: " .. cur["desc"])
+                if cur["parameters_desc"] ~= "" then
+                    api_log(HELP_STRING, cur["parameters_desc"])
+                end
+            end
+            api_log(HELP_STRING, "------------------------------------")
+            api_log(HELP_STRING, "[Pg." .. page_number .. " of " .. #verbose_pages .. "]  /help verbose {#} to see other pages. [Pg." .. page_number .. " of " .. #verbose_pages .. "]")
+        elseif tonumber(args[2]) > 0 and tonumber(args[2]) <= #verbose_pages then
+            page_number = tonumber(args[2])
+            api_log(HELP_STRING, "[Pg." .. page_number .. " of " .. #verbose_pages .. "]  Here's details on the commands! [Pg." .. page_number .. " of " .. #verbose_pages .. "]")
+            for i = 1,VERBOSE_PAGE_LIMIT do
+                local cur = verbose_pages[page_number][i]
+                api_log(HELP_STRING, "------------------------------------")
+                api_log(HELP_STRING, cur["mod_id"] .. ": " .. cur["command_name"] .. " " .. cur["parameters"])
+                api_log(HELP_STRING, "Description: " .. cur["desc"])
+                if cur["parameters_desc"] ~= "" then
+                    api_log(HELP_STRING, cur["parameters_desc"])
+                end
+            end
+            api_log(HELP_STRING, "------------------------------------")
+            api_log(HELP_STRING, "[Pg." .. page_number .. " of " .. #verbose_pages .. "]  /help verbose {#} to see other pages. [Pg." .. page_number .. " of " .. #verbose_pages .. "]") -- for some reason doens't work when displaying the last verbose page??
         else
             api_log(HELP_STRING, "Page not found")
         end
