@@ -175,7 +175,7 @@ function update_pages()
             table.insert(pages,page)
         end
     end
-    verbose_pages()
+    verbose_pages = {}
     if combined_command_count > VERBOSE_PAGE_LIMIT then
         pages_added = 0
         for  i = 1,math.ceil(combined_command_count / VERBOSE_PAGE_LIMIT)  do
