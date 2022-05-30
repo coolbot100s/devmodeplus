@@ -141,6 +141,14 @@ command_list = {
         desc = "Info about DevmodePlus",
         parameters = "",
         parameters_desc = ""
+    },
+    {
+        command_name = "/eval",
+        command_script = "eval_command",
+        mod_id = MOD_NAME,
+        desc = "Allows you to run code in-game. Mainly used to simple stuff such as /eval api_get_mouse_position()",
+        parameters = "{text}",
+        parameters_desc = "{text} - the code to evaluate"
     }
 }
 command_count = #command_list
