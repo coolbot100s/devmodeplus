@@ -81,12 +81,7 @@ function help_command(args)
 end
 
 function echo_command(args)
-    text = ""
-    count = #args
-    for i = 1,count do
-        text = text .. " " .. args[i]
-    end
-    api_log("ECHO", text)
+    api_log("ECHO", table.concat(args, " "))
 end
 
 function time_passed_command()
@@ -95,4 +90,18 @@ end
 
 function dmp_info_command()
     api_log("INFO", "DevmodePlus was created by coolbot! Find them at https://coolbot.carrd.co/ contact me to report bugs or if you're having issues adding your commands to the /help command 💜")
+end
+
+function eval_command(args)
+    local func, err = load("return " .. table.concat(args, " "))
+    if func then
+        local status, response = pcall(func)
+        if status then
+            api_log("Eval", response)
+        else
+            api_log("Eval", "Failed to Execute: " .. response)
+        end
+    else
+        api_log("Eval", "Failed to Compile: " .. err)
+    end
 end
