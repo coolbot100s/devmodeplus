@@ -1,3 +1,6 @@
+-- Functions for all commands added by the mod.
+
+-- seriously need to make this more readable. will put most of it in helpers.lua soon.
 function help_command(args)
     if args[1] == nil then -- /help
         if #pages == 0 or pages == nil then --This will be irrelavent as soon i start adding commands oop
@@ -74,7 +77,7 @@ function help_command(args)
                 break
             end
             if i == combined_command_count then
-                api_log(HELP_STRING, "Command not found")
+                api_log(HELP_STRING, "Command not found, check your spelling! if this command exists but does not show up, than DevmodePlus was unable to register it. Report this to your mod author.")
             end
         end
     end
@@ -88,8 +91,9 @@ function time_passed_command()
     api_log("Secconds", get_seconds_passed())
 end
 
+-- this command will generate useful information later, for now it's just links.
 function dmp_info_command()
-    api_log("INFO", "DevmodePlus was created by coolbot! Find them at https://coolbot.carrd.co/ contact me to report bugs or if you're having issues adding your commands to the /help command 💜")
+    api_log("INFO", "DevmodePlus was created by coolbot! Find them at https://coolbot.carrd.co/ You can find more information at https://github.com/coolbot100s/devmodeplus 💜")
 end
 
 function eval_command(args)

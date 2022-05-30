@@ -7,7 +7,6 @@ VMID = "Apico"
 --variables for seperating pages of commands when there's too many.
 PAGE_LIMIT = 28 -- at this time 30 lines can be shown in the log at once. 28 allows header & footer
 VERBOSE_PAGE_LIMIT = 5
-
 pages = {}
 verbose_pages = {}
 
